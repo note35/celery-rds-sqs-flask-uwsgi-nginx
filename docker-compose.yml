@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  myapp-flask:
+    build:
+      dockerfile: Dockerfile-flask
+      context: ./myapp
+    container_name: myapp-flask
+    volumes:
+      - ./myapp:/app
+    expose:
+      - 5000
+
+  myapp-celery:
+    build:
+      dockerfile: Dockerfile-celery
+      context: ./myapp
+    container_name: myapp-celery
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./myapp:/app
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8080:8080"

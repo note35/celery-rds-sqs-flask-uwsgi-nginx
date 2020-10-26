@@ -1,0 +1,13 @@
+# Pull base image.
+FROM python:3.8.2
+
+WORKDIR /app
+
+# App general setup
+COPY requirements-prod.txt ./
+RUN pip install --no-cache-dir -r requirements-prod.txt
+
+# Flask App additional setup
+RUN pip install flask uwsgi
+CMD ["uwsgi", "flask_app.ini"]
+EXPOSE 5000

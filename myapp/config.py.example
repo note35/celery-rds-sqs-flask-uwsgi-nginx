@@ -1,0 +1,11 @@
+# AWS region
+region = ''
+
+# AWS Access Keys
+access_key = ''
+secret_key = ''
+
+# AWS RDS configs
+db_name = ''
+db_key = ''
+db_endpoint = ''
