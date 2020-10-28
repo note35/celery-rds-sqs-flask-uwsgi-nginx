@@ -77,6 +77,53 @@ Access the flask app to test the functionality
 http://127.0.0.1:8080
 ```
 
+## Upload image to ECR
+
+1. Create repository (One-off)
+
+```
+$ aws ecr create-repository --repository-name celery-test
+
+{
+    "repository": {
+        "repositoryArn": "arn:aws:ecr:xx-yyyy-z:123456789:repository/celery-test",
+        "registryId": "123456789",
+        "repositoryName": "celery-test",
+        "repositoryUri": "123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test",
+        "createdAt": 123456789.0,
+        "imageTagMutability": "MUTABLE",
+        "imageScanningConfiguration": {
+            "scanOnPush": false
+        },
+        "encryptionConfiguration": {
+            "encryptionType": "AES256"
+        }
+    }
+}
+```
+
+2. Tag your image
+
+```
+$ docker images
+
+REPOSITORY                                                 TAG                 IMAGE ID            CREATED             SIZE
+celery-rds-sqs-flask-uwsgi-nginx_myapp-flask               latest              aaaaaabbbbbb        12 hours ago        1.03GB
+celery-test_myapp-flask                                    latest              aaaaaacccccc        23 hours ago        1.03GB
+celery-rds-sqs-flask-uwsgi-nginx_myapp-celery              latest              aaaaaadddddd        34 hours ago        1.02GB
+
+$ docker tag aaaaaabbbbbb 123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test:myapp-flask
+$ docker tag aaaaaacccccc 123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test:myapp-celery
+$ docker tag aaaaaadddddd 123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test:nginx
+```
+
+3 Login and push the image to ECR
+
+```
+$ $(aws ecr get-login --registry-ids 123456789 --no-include-email)
+$ docker push 123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test
+```
+
 ### Development without Docker
 
 This project currently requires to develop by docker, local development requires some import path overrides. This is out of the scope of this project.
