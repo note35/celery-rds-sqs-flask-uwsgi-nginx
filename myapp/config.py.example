@@ -9,3 +9,6 @@ secret_key = ''
 db_name = ''
 db_key = ''
 db_endpoint = ''
+
+# AWS DDB configs
+ddb_table = ''

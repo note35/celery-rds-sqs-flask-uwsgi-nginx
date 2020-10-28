@@ -47,6 +47,15 @@ ARCHFLAGS="-arch x86_64" ./py3/bin/pip install -r myapp/requirements-dev.txt
 ./py3/bin/python Debugger/db_conn.py
 ```
 
+## DDB setup (Optional)
+
+If you plan to use DDB instead of RDS (which is much simpler than RDS), you can follow below spec:
+
+1. Partition key (Hash key) can be anything, that's juse use `id`.
+2. Sort key (Range key) is not needed.
+3. RW both should be on-demand.
+
+
 ## AWS setup in Production
 
 To prevent the complexity of learning this example, I have no plan to make this project contain code/config related to CDK/CloudFormation. If you want to proceed to production, you definitely should consider using them to setup the AWS environment. And you should always consider limiting to just enough permission for IAM role rather than Admin permission for IAM user.
