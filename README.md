@@ -9,8 +9,11 @@ This example contains the usage of following items:
 
 Flask in this example is just for showing results in the backend, which is optional for production use cases. If you just need a message queue to handle distributed messages, you don't need to deploy Flask into production.
 
+## Diagram
 
-# AWS setup in prototype
+![diagram.png](diagram/high-level-diagram.png)
+
+## AWS setup in prototype
 
 - IAM user and SQS
   - For prototype, it's okay to do things by a IAM user with admin permission
@@ -28,7 +31,7 @@ brew install libpq
 createdb <database_name> -h <database_endpoint> -U <database_name>
 ```
 
-## Test RDS
+### Test RDS
 
 1. Copy **myapp/config.py.example** to **myapp/config.py** and fill the information
 2. Setup python environment
@@ -47,7 +50,7 @@ ARCHFLAGS="-arch x86_64" ./py3/bin/pip install -r myapp/requirements-dev.txt
 ./py3/bin/python Debugger/db_conn.py
 ```
 
-## DDB setup (Optional)
+### DDB setup (Optional)
 
 If you plan to use DDB instead of RDS (which is much simpler than RDS), you can follow below spec:
 
@@ -56,23 +59,23 @@ If you plan to use DDB instead of RDS (which is much simpler than RDS), you can 
 3. RW both should be on-demand.
 
 
-## AWS setup in Production
+### AWS setup in Production
 
 To prevent the complexity of learning this example, I have no plan to make this project contain code/config related to CDK/CloudFormation. If you want to proceed to production, you definitely should consider using them to setup the AWS environment. And you should always consider limiting to just enough permission for IAM role rather than Admin permission for IAM user.
 
 
-# Docker setup
+## Docker setup
 
 You need to install Docker Desktop in your host for development, follow [this guide](https://docs.docker.com/desktop/) to install it.
 
-# Project setup
+## Project setup
 
-## Prerequisite
+### Prerequisite
 
 1. Make sure you finish AWS and Docker setup.
 2. Make sure your RDS is accessible by **Debugger/db_conn.py**.
 
-## Development
+### Development
 
 Start to run the application
 
@@ -86,7 +89,7 @@ Access the flask app to test the functionality
 http://127.0.0.1:8080
 ```
 
-## Upload image to ECR
+### Upload image to ECR
 
 1. Create repository (One-off)
 
@@ -133,12 +136,12 @@ $ $(aws ecr get-login --registry-ids 123456789 --no-include-email)
 $ docker push 123456789.dkr.ecr.xx-yyyy-z.amazonaws.com/celery-test
 ```
 
-### Development without Docker
+#### Development without Docker
 
 This project currently requires to develop by docker, local development requires some import path overrides. This is out of the scope of this project.
 
 
-## Cleanup
+### Cleanup
 
 Kill all docker processes
 
@@ -147,13 +150,13 @@ docker rm $(docker ps -a -q)
 ```
 
 
-# TODO
+## TODO
 
 - Provide CDK template
 - Make the project locally develop-able
 
 
-# Reference
+## Reference
 
 - [Building a Flask app with Docker | Learning Flask Ep. 24](https://pythonise.com/series/learning-flask/building-a-flask-app-with-docker-compose)
 - [https://medium.com/@gabimelo/developing-a-flask-api-in-a-docker-container-with-uwsgi-and-nginx-e089e43ed90e](https://medium.com/@gabimelo/developing-a-flask-api-in-a-docker-container-with-uwsgi-and-nginx-e089e43ed90e) 
